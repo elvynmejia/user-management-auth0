@@ -1,0 +1,36 @@
+{
+  "name": "eight-f",
+  "version": "1.0.0",
+  "description": "Virtual Assistant Chrome plugin",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "tsc && node compiled/server.js",
+    "lint": "tslint -c tslint.json -p tsconfig.json",
+    "lint-fix": "tslint -c tslint.json -p tsconfig.json --fix",
+    "test": "mocha -r ts-node/register spec/**/*.spec.ts --reporter spec --exit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "tslint": "^6.1.3",
+    "@types/chai": "^4.3.4",
+    "@types/mocha": "^10.0.1",
+    "@types/chai-as-promised": "^7.1.5",
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0",
+    "chai-http": "^4.3.0",
+    "chai-as-promised": "^7.1.1"
+  },
+  "dependencies": {
+    "@types/express": "^4.17.15",
+    "@types/http-errors": "^2.0.1",
+    "@types/morgan": "^1.9.4",
+    "@types/node": "^18.11.17",
+    "dotenv": "^16.0.3",
+    "firebase": "^9.16.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.4"
+  }
+}
