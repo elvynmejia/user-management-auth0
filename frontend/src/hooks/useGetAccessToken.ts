@@ -4,7 +4,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 const useGetAccessToken = (audience: string, scope: string | null) => {
   const { getAccessTokenSilently } = useAuth0();
   const [isLoading, setIsLoading] = useState(false);
-  const [apiData, setApiData] = useState('');
+  const [data, setData] = useState('');
   const [serverError, setServerError] = useState('');
 
   useEffect(() => {
@@ -18,7 +18,7 @@ const useGetAccessToken = (audience: string, scope: string | null) => {
           },
         });
 
-        setApiData(token);
+        setData(token);
         setIsLoading(false);
       } catch (error: any) {
         setServerError(error);
@@ -29,7 +29,7 @@ const useGetAccessToken = (audience: string, scope: string | null) => {
     getToken();
   }, [getAccessTokenSilently, audience, scope]);
 
-  return { isLoading, apiData, serverError };
+  return { isLoading, data, serverError };
 };
 
 export default useGetAccessToken;
