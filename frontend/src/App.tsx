@@ -1,78 +1,38 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 
-import './App.css';
+import UserProfile from './components/userProfile';
+import ApiBackendTestData from './components/apiBackendTestData';
 
-const apiBackendAudience = process.env.REACT_APP_API_BACKEND_AUDIENCE as string;
-const apiBackendUrl = process.env.REACT_APP_API_BACKEND_URL as string;
+import './App.css';
 
 const App = () => {
   const {
     loginWithRedirect,
     isAuthenticated,
     logout,
-    user,
+    user: authUser,
     isLoading,
-    getAccessTokenSilently,
+    error,
   } = useAuth0();
 
-  const [apiBackendData, setApiBackendResponse] = useState(null);
-
-  useEffect(() => {
-    (async () => {
-      let token: string = '';
-      try {
-        token = await getAccessTokenSilently({
-          authorizationParams: {
-            audience: apiBackendAudience,
-            scope: 'read:current_user update:current_user_metadata all',
-          },
-        });
-      } catch (error) {
-        console.log('Error getting token', error);
-        throw error;
-      }
-
-      try {
-        const response = await fetch(
-          `${apiBackendUrl}/api/v1/auth0test`,
-          {
-            method: 'POST',
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setApiBackendResponse(await response.json())
-      } catch (error) {
-        console.log('Error hitting api/v1/auth0test');
-        // Handle errors such as `login_required` and `consent_required` by re-prompting for a login
-        console.error(error);
-      }
-    })();
-  }, [getAccessTokenSilently]);
+  const userId: string | null = authUser?.sub || null;
 
   if (isLoading) {
     return <div className="App">Loading ...</div>;
   }
 
+  if (error) {
+    return <div className="App">Error login. Try again.</div>;
+  }
+
   return (
     <div className="App">
       <h1>Welcome</h1>
-      {isAuthenticated && user ? (
+      {isAuthenticated ? (
         <>
-          <div>
-            <img src={user?.picture} alt={user?.name} />
-            <h2>{user?.name}</h2>
-            <p>{user?.email}</p>
-          </div>
-
-          {apiBackendData && (
-            <>
-              <p>API backend Ok</p>
-              <pre>{JSON.stringify(apiBackendData)}</pre>
-            </>
-          )}
+          <UserProfile userId={userId}/>
+          <ApiBackendTestData userId = {userId} />
           <button
             onClick={() =>
               logout({

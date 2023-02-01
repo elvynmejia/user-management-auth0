@@ -11,7 +11,6 @@ const root = ReactDOM.createRoot(
 
 const domain = process.env.REACT_APP_AUTH0_DOMAIN as string;
 const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID as string;
-const apiBackendAudience = process.env.REACT_APP_API_BACKEND_AUDIENCE as string;
 
 root.render(
   <React.StrictMode>
@@ -20,7 +19,6 @@ root.render(
       clientId={clientId}
       authorizationParams={{
         redirect_uri: window.location.origin,
-        audience: apiBackendAudience,
         scope: "read:current_user update:current_user_metadata all"
       }}
     >
