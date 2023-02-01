@@ -5,6 +5,7 @@ import useGetAccessToken from './useGetAccessToken';
 const audience = process.env.REACT_APP_AUTH0_USER_MANAGEMENT_AUDIENCE as string;
 
 const useGetUserDetails = (userId: string | null) => {
+
   const {
     isLoading: gettingToken,
     apiData: tokenData
@@ -39,7 +40,11 @@ const useGetUserDetails = (userId: string | null) => {
     setIsLoading(true);
     const getUser = async () => {
       try {
-        const url = `${audience}${userId}`;
+        const url = [
+          `${audience}users`,
+          userId
+        ].join('/');
+
         const response = await axios.get(url,{
           headers: {
             Authorization: `Bearer ${tokenData}`,
