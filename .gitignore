@@ -12,6 +12,8 @@ coverage
 build
 
 backend/compiled
+backend/.env
+frontend/.env
 
 # misc
 .DS_Store
